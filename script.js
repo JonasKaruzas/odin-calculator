@@ -16,17 +16,19 @@ function divide(a,b){
 
 function operate(operator, a, b){
     switch (operator) {
-        case add:
+        case 'add':
             return add(a, b);
             break;
-        case subtract:
+        case 'subtract':
             return subtract(a, b);
             break;
-        case multiply:
+        case 'multiply':
             return multiply(a, b);
             break;
-        case divide:
+        case 'divide':
             return divide(a, b);
+            break;
+        case '':
             break;
         default:
             alert('ERROR!')
@@ -41,23 +43,58 @@ let buttons = document.querySelectorAll('button.number');
 let operators = document.querySelectorAll('button.operator')
 
 let displayNumber = '';
+let memoryNumber = '';
+let activeOperator = '';
 
 clear.addEventListener('click', function(){
     displayNumber = '';
-    updateDisplay('');
+    memoryNumber = '';
+    updateDisplay();
 })
 
 buttons.forEach(button => {
     button.addEventListener('click', function(){
-        updateDisplay(button.textContent);
+        displayNumber += button.textContent;
+        updateDisplay();
     })
 })
 
-function updateDisplay(num) {
-    displayNumber += num;
+function updateDisplay() {
     display.textContent = displayNumber;
 }
 
+operators.forEach(operator => {
+    operator.addEventListener('click', function(){
+        if(activeOperator){
+            equalsFn();
+        }
+        activeOperatorFn(operator);        
+        memoryNumber = displayNumber;
+        displayNumber = '';
+    })
+})
 
-console.log(decimal)
-console.log(equals)
+equals.addEventListener('click', function(){
+    equalsFn();
+})
+
+function equalsFn(){
+    displayNumber = operate(activeOperator, parseInt(memoryNumber), parseInt(displayNumber));
+    displayNumber = (Math.floor(displayNumber * 100)) / 100;
+    updateDisplay();
+    activeOperator = '';
+    memoryNumber = '';
+    removeSelectedOperators();
+}
+
+function activeOperatorFn(operator) {
+    removeSelectedOperators();
+    activeOperator = operator.id;
+    operator.classList.add('selected');
+}
+
+function removeSelectedOperators(){
+    operators.forEach(operator => {
+        operator.classList.remove('selected');
+    })
+}

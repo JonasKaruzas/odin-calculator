@@ -65,3 +65,11 @@ button:active {
     background-color: #637074;
 }
 
+.selected {
+    background-color: #222627;
+}
+
+#num0 {
+    flex-basis: 32%;
+}
+
