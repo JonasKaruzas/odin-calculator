@@ -32,3 +32,32 @@ function operate(operator, a, b){
             alert('ERROR!')
     }
 }
+
+let display = document.getElementById('screen');
+let clear = document.getElementById('clear');
+let decimal = document.getElementById('decimal');
+let equals = document.getElementById('equals');
+let buttons = document.querySelectorAll('button.number');
+let operators = document.querySelectorAll('button.operator')
+
+let displayNumber = '';
+
+clear.addEventListener('click', function(){
+    displayNumber = '';
+    updateDisplay('');
+})
+
+buttons.forEach(button => {
+    button.addEventListener('click', function(){
+        updateDisplay(button.textContent);
+    })
+})
+
+function updateDisplay(num) {
+    displayNumber += num;
+    display.textContent = displayNumber;
+}
+
+
+console.log(decimal)
+console.log(equals)
